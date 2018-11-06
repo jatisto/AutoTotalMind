@@ -15,7 +15,7 @@ namespace AutoTotalMind.Factory
 
         public AutoFactory<Color> ColorFactory => colorFactory ?? (colorFactory = new AutoFactory<Color>());
 
-        public AutoFactory<Image> ImageFactoryFactory => imageFactory ?? (imageFactory = new AutoFactory<Image>());
+        public AutoFactory<Image> ImageFactory => imageFactory ?? (imageFactory = new AutoFactory<Image>());
 
         public AutoFactory<Product> ProductFactory => productFactory ?? (productFactory = new AutoFactory<Product>());
 
