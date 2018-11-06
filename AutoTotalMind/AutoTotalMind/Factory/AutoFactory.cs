@@ -52,6 +52,8 @@ public class AutoFactory<T>
         #region .NET
         //Get the ConnectionString from the WebConfig
         connectionString = ConfigurationManager.ConnectionStrings["String"].ConnectionString;
+
+//        properties.AddRange(GetGenericType().GetType().GetProperties());
         #endregion
 
         #region .NET CORE
