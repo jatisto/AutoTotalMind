@@ -138,6 +138,7 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductVM.cs" />
     <Compile Include="Models\Subpage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\UsedCarsList.cshtml" />
+    <Content Include="Views\Home\MostViewsCarsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
