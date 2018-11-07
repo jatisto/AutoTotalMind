@@ -13,5 +13,6 @@
         public bool Smoke { get; set; }
         public bool Inspected { get; set; }
         public string Description { get; set; }
+        public int Views { get; set; }
     }
 }

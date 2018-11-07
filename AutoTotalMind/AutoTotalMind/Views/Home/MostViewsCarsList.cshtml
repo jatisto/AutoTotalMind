@@ -1,0 +1,17 @@
+﻿@model List<Product>
+
+<div class="row">
+    @foreach (Product item in Model)
+    {
+        <div class="col-md-12">
+            <div>
+                <div>
+                    <span>@item.Model (@item.Views просмотры)</span>
+                </div>
+                <div>
+                    <span>@item.Price</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -19,6 +19,7 @@ namespace AutoTotalMind.Controllers
             return View(_context.SubpageFactory.Get(3)); // вывести subpage с ID 3
         }
 
+        [ChildActionOnly]
         public ActionResult UsedCarsList()
         {
             ViewBag.TotalProductCount = _context.ProductFactory.Count(); //Передаём колличество подерженных авто
@@ -32,7 +33,19 @@ namespace AutoTotalMind.Controllers
 
                 brandWhitCount.Add(brandVm);
             }
+
             return PartialView(brandWhitCount);
+        }
+
+        [ChildActionOnly]
+        public ActionResult MostViewsCarsList()
+        {
+            List<Product> top3MostViewed = _context.ProductFactory
+                .GetAll()
+                .OrderByDescending(x => x.Views)
+                .Take(3)
+                .ToList();
+            return PartialView(top3MostViewed);
         }
     }
 }
