@@ -19,6 +19,25 @@ namespace AutoTotalMind.Controllers
             return View(_context.SubpageFactory.Get(3)); // вывести subpage с ID 3
         }
 
+        public ActionResult Products()
+        {
+            //Создание списка ProductVM, который содержит продукт, бренд и его изображения
+            List<ProductVM> allProductWithImages = new List<ProductVM>();
+
+            // Делаем foreach на всех продуктах в таблице Product собственный
+            // _context.ProductFactory.GetAll()
+            foreach (Product product in _context.ProductFactory.GetAll())
+            {
+                ProductVM pvm = new ProductVM();
+                pvm.Product = product;
+                pvm.Brand = _context.BrandFactory.Get(product.BrandID);
+                pvm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
+
+                allProductWithImages.Add(pvm);
+            }
+            return View(allProductWithImages);
+        }
+
         [ChildActionOnly]
         public ActionResult UsedCarsList()
         {

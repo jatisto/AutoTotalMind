@@ -155,6 +155,7 @@
     <Content Include="Views\Home\UsedCarsList.cshtml" />
     <Content Include="Views\Home\MostViewsCarsList.cshtml" />
     <Content Include="Views\Home\MostExpensiveCar.cshtml" />
+    <Content Include="Views\Home\Products.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
