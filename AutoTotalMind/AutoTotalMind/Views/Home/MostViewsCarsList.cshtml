@@ -1,15 +1,16 @@
-﻿@model List<Product>
+﻿@model List<ProductVM>
 
 <div class="row">
-    @foreach (Product item in Model)
+    @foreach (ProductVM item in Model)
     {
         <div class="col-md-12">
             <div>
                 <div>
-                    <span>@item.Model (@item.Views просмотры)</span>
+                    <span>@item.Product.Model (@item.Product.Views просмотры)</span>
                 </div>
                 <div>
-                    <span>@item.Price</span>
+                    <img src="~/Content/Images/Product/@item.GetFirstImages().ImageUrl" alt="@item.GetFirstImages().Alt" class="img-responsive"/>
+                    <span>@item.Product.Price</span>
                 </div>
             </div>
         </div>

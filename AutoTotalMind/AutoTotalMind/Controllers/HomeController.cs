@@ -45,7 +45,21 @@ namespace AutoTotalMind.Controllers
                 .OrderByDescending(x => x.Views)
                 .Take(3)
                 .ToList();
-            return PartialView(top3MostViewed);
+
+            List<ProductVM> productVmList = new List<ProductVM>();
+
+            foreach (Product product in top3MostViewed)
+            {
+                ProductVM productVm = new ProductVM();
+                productVm.Product = product;
+                productVm.Brand = _context.BrandFactory.Get(product.BrandID);
+                productVm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
+
+                productVmList.Add(productVm);
+
+            }
+
+            return PartialView(productVmList);
         }
     }
 }

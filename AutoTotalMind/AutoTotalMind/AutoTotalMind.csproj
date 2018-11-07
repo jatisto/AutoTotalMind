@@ -138,6 +138,7 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductVM.cs" />
     <Compile Include="Models\Subpage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
