@@ -21,12 +21,26 @@ namespace AutoTotalMind.Controllers
 
         public ActionResult Products()
         {
-            //Создание списка ProductVM, который содержит продукт, бренд и его изображения
+            List<ProductVM> products = null;
+            if (TempData["sortedProducts"] == null)
+            {
+                products = CreateListProductVm(_context.ProductFactory.GetAll());
+                ViewBag.Title = "All Products";
+            }
+            else
+            {
+                products = CreateListProductVm(TempData["sortedProducts"] as List<Product>);
+                ViewBag.Title = "Сортировка по: " + TempData["sortTitle"].ToString().ToUpper();
+            }
+            
+            return View(products);
+        }
+
+        public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
+        {
             List<ProductVM> allProductWithImages = new List<ProductVM>();
 
-            // Делаем foreach на всех продуктах в таблице Product собственный
-            // _context.ProductFactory.GetAll()
-            foreach (Product product in _context.ProductFactory.GetAll())
+            foreach (Product product in productsToCreateForm)
             {
                 ProductVM pvm = new ProductVM();
                 pvm.Product = product;
@@ -35,8 +49,42 @@ namespace AutoTotalMind.Controllers
 
                 allProductWithImages.Add(pvm);
             }
-            return View(allProductWithImages);
+
+            return allProductWithImages;
         }
+
+        #region Sort Products
+
+        public ActionResult SortProductBy()
+        {
+            List<Product> sortedProducts = _context.ProductFactory.GetAll();
+            string sortBy = Request.QueryString["sortBy"].ToString();
+
+            switch (sortBy.ToLower())
+            {
+                case "Скорости":
+                    sortedProducts = sortedProducts.OrderBy(x => x.Km).ToList();
+                    break;
+                case "Цене":
+                    sortedProducts = sortedProducts.OrderBy(x => x.Price).ToList();
+                    break;
+                case "По просмотрам":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.Views).ToList();
+                    break;
+                case "BHP":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.BHP).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            TempData["sortedProducts"] = sortedProducts.Take(5).ToList();
+            TempData["sortTitle"] = sortBy;
+
+            return RedirectToAction("Products");
+        }
+
+            #endregion
 
         [ChildActionOnly]
         public ActionResult UsedCarsList()
@@ -93,6 +141,12 @@ namespace AutoTotalMind.Controllers
             productVm.Images = _context.ImageFactory.GetAllBy("ProductID", theChosenChineseOrWasItJapanes.ID);
 
             return PartialView(productVm);
+        }
+
+        [ChildActionOnly]
+        public ActionResult SortCars()
+        {
+            return PartialView();
         }
     }
 }
