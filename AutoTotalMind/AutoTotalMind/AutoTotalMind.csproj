@@ -133,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\BrandVM.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Image.cs" />
@@ -150,6 +151,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\UsedCarsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
