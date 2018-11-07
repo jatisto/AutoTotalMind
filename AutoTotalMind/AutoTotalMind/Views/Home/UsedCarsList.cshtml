@@ -1,0 +1,17 @@
+﻿@model List<BrandVM>
+
+<div id="usedCars">
+    <div>
+        <h3>Падерженные авто (@ViewBag.TotalProductCount)</h3>
+    </div>
+    <div>
+        <ul>
+            @foreach (BrandVM vm in Model)
+            {
+                <li>
+                    @vm.Brand.Name (@vm.ProductCount)
+                </li>
+            }
+        </ul>
+    </div>
+</div>
