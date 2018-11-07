@@ -61,5 +61,19 @@ namespace AutoTotalMind.Controllers
 
             return PartialView(productVmList);
         }
+
+        [ChildActionOnly]
+        public ActionResult MostExpensiveCar()
+        {
+            Product theChosenChineseOrWasItJapanes = _context.ProductFactory.GetAll()
+                .OrderByDescending(x => x.Price).FirstOrDefault();
+
+            ProductVM productVm = new ProductVM();
+            productVm.Product = theChosenChineseOrWasItJapanes;
+            productVm.Brand = _context.BrandFactory.Get(theChosenChineseOrWasItJapanes.BrandID);
+            productVm.Images = _context.ImageFactory.GetAllBy("ProductID", theChosenChineseOrWasItJapanes.ID);
+
+            return PartialView(productVm);
+        }
     }
 }
