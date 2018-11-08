@@ -32,7 +32,7 @@ namespace AutoTotalMind.Controllers
                 products = CreateListProductVm(TempData["sortedProducts"] as List<Product>);
                 ViewBag.Title = "Сортировка по: " + TempData["sortTitle"].ToString().ToUpper();
             }
-            
+
             return View(products);
         }
 
@@ -62,17 +62,17 @@ namespace AutoTotalMind.Controllers
 
             switch (sortBy.ToLower())
             {
-                case "Скорости":
-                    sortedProducts = sortedProducts.OrderBy(x => x.Km).ToList();
+                case "km":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.Km).ToList();
                     break;
-                case "Цене":
-                    sortedProducts = sortedProducts.OrderBy(x => x.Price).ToList();
+                case "price":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.Price).ToList();
                     break;
-                case "По просмотрам":
-                    sortedProducts = sortedProducts.OrderByDescending(x => x.Views).ToList();
+                case "views":
+                    sortedProducts = sortedProducts.OrderBy(x => x.Views).ToList();
                     break;
-                case "BHP":
-                    sortedProducts = sortedProducts.OrderByDescending(x => x.BHP).ToList();
+                case "hk":
+                    sortedProducts = sortedProducts.OrderBy(x => x.BHP).ToList();
                     break;
                 default:
                     break;
@@ -84,7 +84,17 @@ namespace AutoTotalMind.Controllers
             return RedirectToAction("Products");
         }
 
-            #endregion
+
+        public ActionResult SortByBrand(int id)
+        {
+            Brand brand = _context.BrandFactory.Get(id);
+            TempData["sortedProducts"] = _context.ProductFactory.GetAllBy("BrandID", id);
+            TempData["sortTitle"] = brand.Name;
+
+            return RedirectToAction("Products");
+        }
+
+        #endregion
 
         [ChildActionOnly]
         public ActionResult UsedCarsList()
@@ -123,7 +133,6 @@ namespace AutoTotalMind.Controllers
                 productVm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
 
                 productVmList.Add(productVm);
-
             }
 
             return PartialView(productVmList);
