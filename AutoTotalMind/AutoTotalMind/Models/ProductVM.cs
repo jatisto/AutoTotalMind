@@ -9,6 +9,7 @@ namespace AutoTotalMind.Models
     {
         public Product Product { get; set; }
         public Brand Brand { get; set; }
+        public Color Color { get; set; }
         public List<Image> Images { get; set; }
 
         public Image GetFirstImages()

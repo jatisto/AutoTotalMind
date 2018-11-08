@@ -36,6 +36,19 @@ namespace AutoTotalMind.Controllers
             return View(products);
         }
 
+        public ActionResult ShowProduct(int id = 0)
+        {
+            if (id == null || id > 0)
+            {
+                Product p = _context.ProductFactory.Get(id);
+                p.Views++;
+                _context.ProductFactory.Update(p);
+                return View(CreateProductVM(_context.ProductFactory.Get(id)));
+            }
+
+            return Redirect(Request.UrlReferrer.PathAndQuery);
+        }
+
         public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
         {
             List<ProductVM> allProductWithImages = new List<ProductVM>();
@@ -44,6 +57,7 @@ namespace AutoTotalMind.Controllers
             {
                 ProductVM pvm = new ProductVM();
                 pvm.Product = product;
+                pvm.Color = _context.ColorFactory.Get(product.ColorID);
                 pvm.Brand = _context.BrandFactory.Get(product.BrandID);
                 pvm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
 
@@ -51,6 +65,17 @@ namespace AutoTotalMind.Controllers
             }
 
             return allProductWithImages;
+        }
+
+        public ProductVM CreateProductVM(Product productToCreateForm)
+        {
+            ProductVM pvm = new ProductVM();
+            pvm.Product = productToCreateForm;
+            pvm.Color = _context.ColorFactory.Get(productToCreateForm.ColorID);
+            pvm.Brand = _context.BrandFactory.Get(productToCreateForm.BrandID);
+            pvm.Images = _context.ImageFactory.GetAllBy("ProductID", productToCreateForm.ID);
+
+            return pvm;
         }
 
         #region Sort Products
