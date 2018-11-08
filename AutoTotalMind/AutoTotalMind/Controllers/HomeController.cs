@@ -150,7 +150,7 @@ namespace AutoTotalMind.Controllers
         public ActionResult Search(string searchQuery)
         {
             TempData["sortedProducts"] =
-                _context.ProductFactory.SearchBy(searchQuery, "Model", "BHP", "Year", "Km", "Price", "Description");
+                _context.ProductFactory.SearchByJoin<Brand, Color>(searchQuery, "Model", "BHP", "Year", "Km", "Price", "Description");
 
             TempData["sortTitle"] = "Результат поиска: ";
             return RedirectToAction("Products");
