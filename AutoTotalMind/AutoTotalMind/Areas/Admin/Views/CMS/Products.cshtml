@@ -6,40 +6,39 @@
 
 <h2>Products</h2>
 
-
 <div class="row">
     <div class="col-xs-3">
         <strong>Image</strong>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-6">
         <strong>Product Model</strong>
     </div>
     <div class="col-xs-3">
-        <strong>Action</strong>
+        <strong>Actions</strong>
     </div>
-
-    @foreach (ProductVM pvm in Model)
-    {
-        <div class="col-xs-3">
-            <img src="~/Content/Images/Product/@pvm.GetFirstImages().ImageUrl" alt="@pvm.GetFirstImages().Alt" class="img-responsive"/>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <a href="/Admin/CMS/EditProduct"><strong>Add Product</strong></a>
+    </div>
+</div>
+@foreach (ProductVM pvm in Model)
+{
+    <div class="row">
+        <div class="col-xs-1">
+            <img src="~/Content/Images/Product/@pvm.GetFirstImages().ImageUrl" alt="@pvm.GetFirstImages().Alt" class="img-responsive" />
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-8">
             <strong>@pvm.Product.Model</strong>
         </div>
         <div class="col-xs-1">
-            <a href="/Home/ShowProduct/@pvm.Product.ID" target="_blank">
-                <i class="glyphicon glyphicon-eye-open"></i>
-            </a>
+            <a href="/Home/ShowProduct/@pvm.Product.ID" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
         </div>
         <div class="col-xs-1">
-            <a href="#">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
+            <a href="/Admin/CMS/EditProduct/@pvm.Product.ID"><i class="glyphicon glyphicon-edit"></i></a>
         </div>
         <div class="col-xs-1">
-            <a href="#">
-                <i class="glyphicon glyphicon-trash"></i>
-            </a>
+            <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
         </div>
-    }
-</div>
+    </div>
+}
