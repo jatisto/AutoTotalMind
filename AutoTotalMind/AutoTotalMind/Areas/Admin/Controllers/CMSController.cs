@@ -43,7 +43,7 @@ namespace AutoTotalMind.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateImage(List<HttpPostedFileBase> list)
+        public ActionResult CreateImages(List<HttpPostedFileBase> list)
         {
             foreach (HttpPostedFileBase file in list)
             {
@@ -54,7 +54,7 @@ namespace AutoTotalMind.Areas.Admin.Controllers
 
                     Image image = new Image();
                     image.ImageUrl = fileName;
-                    image.PropductID = 0;
+                    image.ProductID = 0;
                     image.SubpageID = 0;
                     image.Alt = "";
 

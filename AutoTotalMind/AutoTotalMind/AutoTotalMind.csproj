@@ -119,6 +119,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\CMS\Products.cshtml" />
+    <Content Include="Areas\Admin\Views\CMS\Images.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -139,6 +140,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Upload.cs" />
     <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\BrandVM.cs" />
     <Compile Include="Models\Color.cs" />

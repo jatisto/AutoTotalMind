@@ -1,4 +1,4 @@
-﻿/*
+/*
 /*
  --------------------------------------------
  - AutoFactory created by Daniel Dollerup   -
@@ -6,7 +6,7 @@
  - You are free to use this as you please   -
  - as long as you credit me :)              -
  -                                          -
- - Latest Update: 18-10-2018                -
+ - Latest Update: 19-07-2018                -
  --------------------------------------------
  */
 
@@ -39,7 +39,7 @@ public enum SearchSpecifier
 public class AutoFactory<T>
 {
     // Local reference to the ConnectionString set in the WebConfig Root file.
-    private string connectionString = "";
+    private readonly string connectionString = "";
 
     // Creating a List of Properties, containing information about the current Type's properties
     private List<PropertyInfo> properties = new List<PropertyInfo>();
@@ -52,8 +52,6 @@ public class AutoFactory<T>
         #region .NET
         //Get the ConnectionString from the WebConfig
         connectionString = ConfigurationManager.ConnectionStrings["String"].ConnectionString;
-
-//        properties.AddRange(GetGenericType().GetType().GetProperties());
         #endregion
 
         #region .NET CORE
@@ -75,7 +73,7 @@ public class AutoFactory<T>
     private T GetGenericType()
     {
         T t;
-        return t = Activator.CreateInstance<T>();
+        return Activator.CreateInstance<T>();
     }
     private Q GetGenericType<Q>()
     {
@@ -191,9 +189,7 @@ public class AutoFactory<T>
         {
             // Passing in values for the properties
             if (properties[i].Name.ToLower().Contains("id") && i == 0) continue;
-            object prop = properties[i].GetValue(entity);
-            if (prop.GetType() == typeof(DateTime) && ((DateTime)prop) == DateTime.MinValue) prop = DBNull.Value;
-            cmd.Parameters.AddWithValue("@" + properties[i].Name, prop ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@" + properties[i].Name, properties[i].GetValue(entity) ?? DBNull.Value);
         }
 
         // Executing the SQL statement
@@ -242,9 +238,7 @@ public class AutoFactory<T>
         {
             // Passing in values for the properties
             if (properties[i].Name.ToLower().Contains("id") && i == 0) continue;
-            object prop = properties[i].GetValue(entity);
-            if (prop.GetType() == typeof(DateTime) && ((DateTime)prop) == DateTime.MinValue) prop = DBNull.Value;
-            cmd.Parameters.AddWithValue("@" + properties[i].Name, prop ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@" + properties[i].Name, properties[i].GetValue(entity) ?? DBNull.Value);
         }
 
         // Executing the SQL statement
@@ -684,7 +678,8 @@ public class AutoFactory<T>
     }
 
     /// <summary>
-    /// Gets all elements from table that matches requirements.
+    /// Gets all elements from table that matches requirements. Joins on ID - Example: Product and Category - You join Category, and it will join
+    /// all tables where Category.ID is the same as Product.CategoryID
     /// </summary>
     /// <typeparam name="T1">Table to join</typeparam>
     /// <param name="value">The search parameter</param>
@@ -768,7 +763,8 @@ public class AutoFactory<T>
     }
 
     /// <summary>
-    /// Gets all elements from table that matches requirements.
+    /// Gets all elements from table that matches requirements. Joins on ID - Example: Product and Category - You join Category, and it will join
+    /// all tables where Category.ID is the same as Product.CategoryID
     /// </summary>
     /// <typeparam name="T1">First table to join</typeparam>
     /// <typeparam name="T2">Second table to join</typeparam>
@@ -867,7 +863,8 @@ public class AutoFactory<T>
     }
 
     /// <summary>
-    /// Gets all elements from table that matches requirements.
+    /// Gets all elements from table that matches requirements. Joins on ID - Example: Product and Category - You join Category, and it will join
+    /// all tables where Category.ID is the same as Product.CategoryID
     /// </summary>
     /// <typeparam name="T1">First to join</typeparam>
     /// <typeparam name="T2">Second table to join</typeparam>
