@@ -9,7 +9,7 @@
             @foreach (BrandVM vm in Model)
             {
                 <li>
-                    @vm.Brand.Name (@vm.ProductCount)
+                    <a href="/Home/SortByBrand/@vm.Brand.ID">@vm.Brand.Name (@vm.ProductCount)</a>
                 </li>
             }
         </ul>

@@ -32,8 +32,21 @@ namespace AutoTotalMind.Controllers
                 products = CreateListProductVm(TempData["sortedProducts"] as List<Product>);
                 ViewBag.Title = "Сортировка по: " + TempData["sortTitle"].ToString().ToUpper();
             }
-            
+
             return View(products);
+        }
+
+        public ActionResult ShowProduct(int id = 0)
+        {
+            if (id == null || id > 0)
+            {
+                Product p = _context.ProductFactory.Get(id);
+                p.Views++;
+                _context.ProductFactory.Update(p);
+                return View(CreateProductVM(_context.ProductFactory.Get(id)));
+            }
+
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
         public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
@@ -44,6 +57,7 @@ namespace AutoTotalMind.Controllers
             {
                 ProductVM pvm = new ProductVM();
                 pvm.Product = product;
+                pvm.Color = _context.ColorFactory.Get(product.ColorID);
                 pvm.Brand = _context.BrandFactory.Get(product.BrandID);
                 pvm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
 
@@ -51,6 +65,17 @@ namespace AutoTotalMind.Controllers
             }
 
             return allProductWithImages;
+        }
+
+        public ProductVM CreateProductVM(Product productToCreateForm)
+        {
+            ProductVM pvm = new ProductVM();
+            pvm.Product = productToCreateForm;
+            pvm.Color = _context.ColorFactory.Get(productToCreateForm.ColorID);
+            pvm.Brand = _context.BrandFactory.Get(productToCreateForm.BrandID);
+            pvm.Images = _context.ImageFactory.GetAllBy("ProductID", productToCreateForm.ID);
+
+            return pvm;
         }
 
         #region Sort Products
@@ -62,17 +87,17 @@ namespace AutoTotalMind.Controllers
 
             switch (sortBy.ToLower())
             {
-                case "Скорости":
-                    sortedProducts = sortedProducts.OrderBy(x => x.Km).ToList();
+                case "km":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.Km).ToList();
                     break;
-                case "Цене":
-                    sortedProducts = sortedProducts.OrderBy(x => x.Price).ToList();
+                case "price":
+                    sortedProducts = sortedProducts.OrderByDescending(x => x.Price).ToList();
                     break;
-                case "По просмотрам":
-                    sortedProducts = sortedProducts.OrderByDescending(x => x.Views).ToList();
+                case "views":
+                    sortedProducts = sortedProducts.OrderBy(x => x.Views).ToList();
                     break;
-                case "BHP":
-                    sortedProducts = sortedProducts.OrderByDescending(x => x.BHP).ToList();
+                case "hk":
+                    sortedProducts = sortedProducts.OrderBy(x => x.BHP).ToList();
                     break;
                 default:
                     break;
@@ -84,7 +109,17 @@ namespace AutoTotalMind.Controllers
             return RedirectToAction("Products");
         }
 
-            #endregion
+
+        public ActionResult SortByBrand(int id)
+        {
+            Brand brand = _context.BrandFactory.Get(id);
+            TempData["sortedProducts"] = _context.ProductFactory.GetAllBy("BrandID", id);
+            TempData["sortTitle"] = brand.Name;
+
+            return RedirectToAction("Products");
+        }
+
+        #endregion
 
         [ChildActionOnly]
         public ActionResult UsedCarsList()
@@ -123,7 +158,6 @@ namespace AutoTotalMind.Controllers
                 productVm.Images = _context.ImageFactory.GetAllBy("ProductID", product.ID);
 
                 productVmList.Add(productVm);
-
             }
 
             return PartialView(productVmList);
