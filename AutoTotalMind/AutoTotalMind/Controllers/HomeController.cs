@@ -10,7 +10,13 @@ namespace AutoTotalMind.Controllers
 {
     public class HomeController : Controller
     {
+        #region ConnectDB
+
         DBContext _context = new DBContext();
+
+        #endregion
+
+        #region Index
 
         public ActionResult Index()
         {
@@ -18,6 +24,10 @@ namespace AutoTotalMind.Controllers
             _context.ProductFactory.CountBy("BrandID", 1);
             return View(_context.SubpageFactory.Get(3)); // вывести subpage с ID 3
         }
+
+        #endregion
+
+        #region Product
 
         public ActionResult Products()
         {
@@ -35,6 +45,11 @@ namespace AutoTotalMind.Controllers
 
             return View(products);
         }
+        
+
+        #endregion
+
+        #region ShowProduct
 
         public ActionResult ShowProduct(int id = 0)
         {
@@ -48,6 +63,11 @@ namespace AutoTotalMind.Controllers
 
             return Redirect(Request.UrlReferrer.PathAndQuery);
         }
+        
+
+        #endregion
+
+        #region GetCreateListAndProductVM
 
         public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
         {
@@ -77,6 +97,10 @@ namespace AutoTotalMind.Controllers
 
             return pvm;
         }
+        
+
+
+        #endregion
 
         #region Sort Products
 
@@ -134,6 +158,8 @@ namespace AutoTotalMind.Controllers
 
         #endregion
 
+        #region UsedCarsList
+
         [ChildActionOnly]
         public ActionResult UsedCarsList()
         {
@@ -151,6 +177,10 @@ namespace AutoTotalMind.Controllers
 
             return PartialView(brandWhitCount);
         }
+
+            #endregion
+
+        #region MostViewsCarsList
 
         [ChildActionOnly]
         public ActionResult MostViewsCarsList()
@@ -176,6 +206,10 @@ namespace AutoTotalMind.Controllers
             return PartialView(productVmList);
         }
 
+            #endregion
+
+        #region MostExpensiveCar
+
         [ChildActionOnly]
         public ActionResult MostExpensiveCar()
         {
@@ -190,10 +224,25 @@ namespace AutoTotalMind.Controllers
             return PartialView(productVm);
         }
 
+            #endregion
+
+        #region SortCars
+
         [ChildActionOnly]
         public ActionResult SortCars()
         {
             return PartialView();
         }
+
+        #endregion
+
+        #region Footer
+        [ChildActionOnly]
+        public ActionResult Footer()
+        {
+            return PartialView(_context.ContactFactory.Get(1));
+        }
+
+        #endregion
     }
 }
