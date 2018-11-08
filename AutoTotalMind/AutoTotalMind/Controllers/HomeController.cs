@@ -235,5 +235,14 @@ namespace AutoTotalMind.Controllers
         }
 
         #endregion
+
+        #region Footer
+        [ChildActionOnly]
+        public ActionResult Footer()
+        {
+            return PartialView(_context.ContactFactory.Get(1));
+        }
+
+        #endregion
     }
 }

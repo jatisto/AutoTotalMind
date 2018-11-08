@@ -7,7 +7,7 @@
 *.userosscache
 *.sln.docstates
 
-*.jpg
+#*.jpg
 *.idea/
 #*.vs/
 
