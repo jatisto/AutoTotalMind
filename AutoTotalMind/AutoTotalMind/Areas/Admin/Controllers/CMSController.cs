@@ -35,6 +35,40 @@ namespace AutoTotalMind.Areas.Admin.Controllers
 
         #endregion
 
+        #region ImageUpload
+
+        public ActionResult Images()
+        {
+            return View(_context.ImageFactory.GetAll());
+        }
+
+        [HttpPost]
+        public ActionResult CreateImage(List<HttpPostedFileBase> list)
+        {
+            foreach (HttpPostedFileBase file in list)
+            {
+                string fileName = "";
+                if (Upload.Image(file, Request.PhysicalApplicationPath + @"/Content/Images/Product/", out fileName))
+                {
+                    Upload.Image(file, Request.PhysicalApplicationPath + @"/Content/Images/Product/", "tn_" + fileName, 400);
+
+                    Image image = new Image();
+                    image.ImageUrl = fileName;
+                    image.PropductID = 0;
+                    image.SubpageID = 0;
+                    image.Alt = "";
+
+                    _context.ImageFactory.Insert(image);
+                }
+            }
+
+            TempData["MSG"] = "Images has been uploaded";
+
+            return RedirectToAction("Images");
+        }
+
+        #endregion
+
         #region GetCreateListAndProductVM
 
         public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
