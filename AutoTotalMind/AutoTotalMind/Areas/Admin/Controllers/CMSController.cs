@@ -69,7 +69,7 @@ namespace AutoTotalMind.Areas.Admin.Controllers
 
         #endregion
 
-        #region Change Color
+        #region EditAndCreateColor
 
         public ActionResult Colors()
         {
@@ -114,6 +114,50 @@ namespace AutoTotalMind.Areas.Admin.Controllers
             _context.ColorFactory.Delete(id);
             return RedirectToAction("Colors");
         }
+
+        #endregion
+
+        #region EditAndCreateBrand
+
+        public ActionResult Brands()
+        {
+            return View(_context.BrandFactory.GetAll());
+        }
+
+        public ActionResult EditBrand(int id = 0)
+        {
+            ViewBag.AddBrand = (id == 0);
+            if (id == 0)
+            {
+                return View();
+            }
+            else
+            {
+                return View(_context.BrandFactory.Get(id));
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditBrandSubmit(Brand brand)
+        {
+            if (brand.ID > 0)
+            {
+                _context.BrandFactory.Update(brand);
+            }
+            else
+            {
+                _context.BrandFactory.Insert(brand);
+            }
+            return RedirectToAction("Brands");
+        }
+
+        public ActionResult DeleteBrand(int id)
+        {
+            _context.BrandFactory.Delete(id);
+            TempData["MSG"] = "Brand has been deleted.";
+            return RedirectToAction("Brands");
+        }
+
         #endregion
 
         #region GetCreateListAndProductVM

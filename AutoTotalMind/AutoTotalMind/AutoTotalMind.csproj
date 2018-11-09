@@ -122,6 +122,8 @@
     <Content Include="Areas\Admin\Views\CMS\Images.cshtml" />
     <Content Include="Areas\Admin\Views\CMS\Colors.cshtml" />
     <Content Include="Areas\Admin\Views\CMS\EditColor.cshtml" />
+    <Content Include="Areas\Admin\Views\CMS\Brands.cshtml" />
+    <Content Include="Areas\Admin\Views\CMS\EditBrand.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
