@@ -3,17 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AutoTotalMind.Factory;
 using AutoTotalMind.Models;
 
 namespace AutoTotalMind.Areas.Admin.Controllers
 {
+    [Authorize]
     public class CMSController : Controller
     {
         #region ConnectDB
 
         DBContext _context = new DBContext();
 
+        #endregion
+
+        #region Login
+        [AllowAnonymous]
+        public ActionResult Login(string returnurl)
+        {
+            TempData["ReturnURL"] = returnurl;
+            return View();
+        }
+
+        [AllowAnonymous, ValidateAntiForgeryToken, HttpPost]
+        public ActionResult LoginSubmit(string email, string password, string rememberMe)
+        {
+            CMSUser user = _context.CMSUserFactory.Login(email, password);
+            if (user != null)
+            {
+                FormsAuthentication.SetAuthCookie(email, Convert.ToBoolean(rememberMe));
+                Session["CMSUser"] = user;
+                string returnurl = TempData["ReturnURL"]?.ToString();
+                if (returnurl == null)
+                {
+                    returnurl = "/Admin/CMS/Index";
+                }
+
+                return Redirect(returnurl);
+            }
+            else
+            {
+                TempData["LoginError"] = "Wrong email or password";
+                return RedirectToAction("Login");
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Remove("CMSUser");
+            return RedirectToAction("Login");
+        }
         #endregion
 
         #region Index
