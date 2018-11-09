@@ -69,6 +69,53 @@ namespace AutoTotalMind.Areas.Admin.Controllers
 
         #endregion
 
+        #region Change Color
+
+        public ActionResult Colors()
+        {
+            return View(_context.ColorFactory.GetAll());
+        }
+
+        public ActionResult EditColor(int id = 0)
+        {
+            ViewBag.AddColor = (id == 0);
+
+            if (id == 0)
+            {
+                return View();
+            }
+            else
+            {
+                return View(_context.ColorFactory.Get(id));
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditColorSubmit(Color color)
+        {
+            if (color.ID > 0)
+            {
+                _context.ColorFactory.Update(color);
+
+                TempData["MSG"] = "Color hass been updated.";
+            }
+            else
+            {
+                _context.ColorFactory.Insert(color);
+
+                TempData["MSG"] = "Color hass been added.";
+            }
+
+            return RedirectToAction("Colors");
+        }
+
+        public ActionResult DeleteColor(int id)
+        {
+            _context.ColorFactory.Delete(id);
+            return RedirectToAction("Colors");
+        }
+        #endregion
+
         #region GetCreateListAndProductVM
 
         public List<ProductVM> CreateListProductVm(List<Product> productsToCreateForm)
