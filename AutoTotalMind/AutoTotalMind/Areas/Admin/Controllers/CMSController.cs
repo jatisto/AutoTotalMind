@@ -9,7 +9,7 @@ using AutoTotalMind.Models;
 
 namespace AutoTotalMind.Areas.Admin.Controllers
 {
-    [Authorize]
+//    [Authorize]
     public class CMSController : Controller
     {
         #region ConnectDB
@@ -61,6 +61,8 @@ namespace AutoTotalMind.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
+
+//            _context.CMSUserFactory.Login("login@test.ru", "123123");
             return View();
         }
 
