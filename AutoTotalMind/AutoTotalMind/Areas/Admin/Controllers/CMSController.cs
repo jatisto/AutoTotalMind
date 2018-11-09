@@ -33,6 +33,72 @@ namespace AutoTotalMind.Areas.Admin.Controllers
             return View(products);
         }
 
+        public ActionResult EditProduct(int id = 0)
+        {
+            ProductVM productVM = null;
+
+            ViewBag.Brands = _context.BrandFactory.GetAll();
+            ViewBag.Colors = _context.ColorFactory.GetAll();
+
+            if (id == 0)
+            {
+                productVM = new ProductVM();
+                productVM.Brand = new Brand();
+                productVM.Color = new Color();
+                productVM.Images = new List<Image>();
+                productVM.Product = new Product();
+                productVM.Images = _context.ImageFactory.GetAllBy("ProductID", 0);
+                return View(productVM);
+            }
+            else
+            {
+                productVM = CreateProductVM(_context.ProductFactory.Get(id));
+                productVM.Images.AddRange(_context.ImageFactory.GetAllBy("ProductID", 0));
+                return View(productVM);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditProductSubmit(Product product, List<int> imageIDs)
+        {
+            if (product.ID > 0)
+            {
+                _context.ProductFactory.Update(product);
+                for (int i = 0; i < imageIDs.Count; i++)
+                {
+                    Image img = _context.ImageFactory.Get(imageIDs[i]);
+                    img.ProductID = product.ID;
+                    _context.ImageFactory.Update(img);
+                }
+
+                foreach (Image img in _context.ImageFactory.GetAllBy("ProductID", product.ID))
+                {
+                    if (imageIDs.Contains(img.ID))
+                    {
+                        continue;
+                    }
+                    img.ProductID = 0;
+                    _context.ImageFactory.Update(img);
+                }
+                TempData["MSG"] = "The Product has been Edited";
+            }
+            else
+            {
+                _context.ProductFactory.Insert(product);
+                for (int i = 0; i < imageIDs.Count; i++)
+                {
+                    Image img = _context.ImageFactory.Get(imageIDs[i]);
+                    img.ProductID = _context.ProductFactory.GetLatest().ID;
+                    _context.ImageFactory.Update(img);
+                }
+
+                TempData["MSG"] = "The Product has been Added";
+            }
+
+            return RedirectToAction("Products");
+        }
+
+
         #endregion
 
         #region ImageUpload
@@ -156,6 +222,49 @@ namespace AutoTotalMind.Areas.Admin.Controllers
             _context.BrandFactory.Delete(id);
             TempData["MSG"] = "Brand has been deleted.";
             return RedirectToAction("Brands");
+        }
+
+        #endregion
+
+        #region EditAndCreateSubpage
+
+        public ActionResult Subpages()
+        {
+            return View(_context.SubpageFactory.GetAll());
+        }
+
+        public ActionResult EditSubpage(int id = 0)
+        {
+            if (id > 0)
+            {
+                return View(_context.SubpageFactory.Get(id));
+            }
+            else
+            {
+                Subpage subpage = new Subpage();
+                subpage.ID = 0;
+                subpage.Title = "";
+                subpage.Content = "";
+                return View(subpage);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditSubpageSubmit(Subpage subpage)
+        {
+            if (subpage.ID > 0)
+            {
+                _context.SubpageFactory.Update(subpage);
+
+                TempData["MSG"] = "Subpage has been updated";
+            }
+            else
+            {
+                _context.SubpageFactory.Insert(subpage);
+                TempData["MSG"] = "Subpage has been added";
+            }
+
+            return RedirectToAction("Subpages");
         }
 
         #endregion
