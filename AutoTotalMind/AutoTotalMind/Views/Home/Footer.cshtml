@@ -1,0 +1,45 @@
+﻿@model Contact
+
+<div class="row">
+    <div class="footerColumn">
+        <h5>Stamp</h5>
+        <hr/>
+        <ul>
+            <li>
+                <a href="/Home/Index">Главная</a>
+            </li>
+            <li>
+                <a href="/Home/Index">Условия</a>
+            </li>
+            <li>
+                <a href="/Home/Index">О Нас</a>
+            </li>
+            <li>
+                <a href="/Home/Index">Контакты</a>
+            </li>
+            <li>
+                <a href="/Admin/CMS/Login">Регистрация</a>
+            </li>
+        </ul>
+    </div>
+    <div class="footerColumn">
+        <h5>Autotal</h5>
+        <hr/>
+        @Html.Raw(Model.Address.Replace("\n", "<br/>"))
+    </div>
+    <div class="footerColumn">
+        <h5>Open Horse</h5>
+        <hr/>
+        @Html.Raw(Model.OpenHours.Replace("\n", "<br/>"))
+    </div>
+    <div class="footerColumn">
+        <h5>Maps</h5>
+        <hr/>
+        @Html.Raw(Model.GoogleMapsEmbed)
+    </div>
+    <div class="footerColumn">
+        <h5>Rate</h5>
+        <hr/>
+        <h1 >@Html.Raw(Model.InterestRate)</h1>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@using AutoTotalMind.Models
+@model Subpage
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>@Model.Title</h1>
+@Html.Raw(Model.Content)
+<br/><br/>
+
+<div class="row">
+    @foreach (Image image in ViewBag.RandomPictures)
+    {
+        <div class="col-md-4">
+            <div>
+                <a href="#">
+                    <img style="width: 100%"  class="img-responsive" src="~/Content/Images/Product/@image.ImageUrl" alt="@image.Alt"/>
+                </a></div>
+        </div>
+    }
+</div>

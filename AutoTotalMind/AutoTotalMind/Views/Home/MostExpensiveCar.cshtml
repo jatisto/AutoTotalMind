@@ -1,0 +1,15 @@
+﻿@model ProductVM
+
+<div class="row">
+    <div id="mostExpensiveCar">
+        <div>
+            <div>
+                <span>@Model.Product.Model (@Model.Product.Views просмотры)</span>
+            </div>
+            <div>
+                <img src="~/Content/Images/Product/@Model.GetFirstImages().ImageUrl" alt="@Model.GetFirstImages().Alt" class="img-responsive"/>
+                <span>@Model.Product.Price</span>
+            </div>
+        </div>
+    </div>
+</div>
