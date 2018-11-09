@@ -10,6 +10,7 @@ namespace AutoTotalMind.Factory
         public AutoFactory<Product> productFactory;
         public AutoFactory<Subpage> subpageFactory;
         public ContactFactory contactFactory;
+        public CMSUserFactory cmsUserFactory;
 
         public AutoFactory<Brand> BrandFactory => brandFactory ?? (brandFactory = new AutoFactory<Brand>());
 
@@ -21,5 +22,6 @@ namespace AutoTotalMind.Factory
 
         public AutoFactory<Subpage> SubpageFactory => subpageFactory ?? (subpageFactory = new AutoFactory<Subpage>());
         public ContactFactory ContactFactory => contactFactory ?? (contactFactory = new ContactFactory());
+        public CMSUserFactory CMSUserFactory => cmsUserFactory ?? (cmsUserFactory = new CMSUserFactory());
     }
 }
